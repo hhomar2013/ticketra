@@ -1,20 +1,16 @@
 import 'package:it_tickets/Core/Helpers/cash_helper.dart';
 import 'package:it_tickets/Core/networking/dio_helper.dart';
 
-class LoginRepo {
-  Future<String> login(String email, String password) async {
+class LogoutRepo {
+  Future<String> logout() async {
     try {
       final response = await DioHelper.postData(
         url: '/login',
-        data: {'email': email, 'password': password},
+        data: {'token': CacheHelper.getData2(key: 'token')},
       );
       if (response.statusCode == 200) {
-        final token = response.data['token'];
-        CacheHelper.saveData(key: 'token', value: token);
-        if (token == null) {
-          throw Exception("Token is null");
-        }
-        return token;
+        CacheHelper.removeData(key: 'token');
+        return 'Logout successful';
       } else {
         throw Exception(response.data['message'] ?? 'Login failed');
       }

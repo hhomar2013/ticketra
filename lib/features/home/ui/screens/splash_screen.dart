@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // ننتظر 3 ثواني عشان الـ GIF يتحرك وبعدين نروح للي بعده
     Timer(const Duration(seconds: 5), () {
       if (mounted) {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => widget.nextWidget),
+          (route) => false,
         );
       }
     });
@@ -28,9 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // اللون البرتقالي بتاعك
+      backgroundColor: Colors.white,
       body: AnimatedBuilder(
-        animation: const AlwaysStoppedAnimation(0), // عشان الـ GIF يتحرك
+        animation: const AlwaysStoppedAnimation(0),
         builder: (context, child) =>
             Center(child: Image.asset('assets/images/logo.gif')),
       ),
