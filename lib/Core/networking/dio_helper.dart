@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:it_tickets/Core/Helpers/constants/constants.dart';
 
 class DioHelper {
   static late Dio dio;
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.1.5:8000/api',
+        baseUrl: 'http://192.168.1.9:8000/api',
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
@@ -17,6 +18,15 @@ class DioHelper {
     );
 
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+
+
+  }
+  static Options _optionsWithToken() {
+    return Options(
+      headers: {
+        'Authorization': 'Bearer ${Constants.userToken}',
+      },
+    );
   }
 
   static Future<Response> getData({
@@ -24,7 +34,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     Options? options,
   }) async {
-    return await dio.get(url, queryParameters: query, options: options);
+    return await dio.get(url, queryParameters: query, options: _optionsWithToken());
   }
 
   static Future<Response> postData({
@@ -37,7 +47,7 @@ class DioHelper {
       url,
       data: data,
       queryParameters: queryParameters,
-      options: options,
+      options: _optionsWithToken(),
     );
   }
 

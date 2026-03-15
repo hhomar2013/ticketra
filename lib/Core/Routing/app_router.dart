@@ -5,27 +5,22 @@ import 'package:it_tickets/Core/Routing/routes.dart';
 import 'package:it_tickets/Core/theming/app_transitions.dart';
 import 'package:it_tickets/features/auth/ui/screens/login_screen.dart';
 import 'package:it_tickets/features/home/ui/screens/home_screen.dart';
+import 'package:it_tickets/features/home/ui/screens/splash_screen.dart';
 import 'package:it_tickets/features/onboarding/onboarding_screen.dart';
 
 class AppRouter {
-  late String token = CacheHelper.getData2(key: 'token');
+  final token = CacheHelper.getData2(key: 'token');
+   late bool isLoggedIn = token != null && token != '';
   Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case Routes.splashScreen:
         return MaterialPageRoute(
-          builder: (_) => AnimatedSplashScreen(
-            backgroundColor: Colors.white,
-            splashIconSize: 400,
-            duration: 3000,
-            animationDuration: const Duration(seconds: 1),
-            splash: Image.asset('assets/images/logo.gif'),
-            nextRoute: token == ''
-                ? Routes.onBoardingScreen
-                : Routes.homeScreen,
-            nextScreen: const SizedBox(),
+          builder: (_) => SplashScreen(
+            nextWidget: isLoggedIn
+                ? const HomeScreen()
+                : const LoginScreen(),
           ),
         );
-
       case Routes.onBoardingScreen:
         return AppTransitions.slideFade(const OnboardingScreen());
 

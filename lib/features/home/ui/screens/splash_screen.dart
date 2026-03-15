@@ -1,8 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  final Widget nextWidget; // الـ Widget اللي المفروض يفتح بعد الـ Splash
+  final Widget nextWidget;
 
   const SplashScreen({super.key, required this.nextWidget});
 
@@ -11,28 +10,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 5), () {
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => widget.nextWidget),
+    startSplash();
+  }
+
+  void startSplash() async {
+    await Future.delayed(const Duration(seconds: 5));
+
+    if (!mounted) return;
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (_) => widget.nextWidget,
+      ),
           (route) => false,
-        );
-      }
-    });
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
-      body: AnimatedBuilder(
-        animation: const AlwaysStoppedAnimation(0),
-        builder: (context, child) =>
-            Center(child: Image.asset('assets/images/logo.gif')),
+      body: Center(
+        child: Image(
+          image: AssetImage('assets/images/logo.gif'),
+          width: 300,
+        ),
       ),
     );
   }

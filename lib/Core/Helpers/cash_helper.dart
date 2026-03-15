@@ -43,7 +43,7 @@ class CacheHelper {
     // getting data
     required String key,
   }) {
-    return sharedPreferences.getString(key) ?? 'false';
+    return sharedPreferences.getString(key) ?? '';
   }
 
   static int getIntData({required String key}) {
