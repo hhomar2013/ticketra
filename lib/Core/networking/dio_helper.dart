@@ -18,15 +18,10 @@ class DioHelper {
     );
 
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
-
-
   }
+
   static Options _optionsWithToken() {
-    return Options(
-      headers: {
-        'Authorization': 'Bearer ${Constants.userToken}',
-      },
-    );
+    return Options(headers: {'Authorization': 'Bearer ${Constants.userToken}'});
   }
 
   static Future<Response> getData({
@@ -34,7 +29,11 @@ class DioHelper {
     Map<String, dynamic>? query,
     Options? options,
   }) async {
-    return await dio.get(url, queryParameters: query, options: _optionsWithToken());
+    return await dio.get(
+      url,
+      queryParameters: query,
+      options: _optionsWithToken(),
+    );
   }
 
   static Future<Response> postData({

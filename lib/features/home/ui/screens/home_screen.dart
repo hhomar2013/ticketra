@@ -54,8 +54,10 @@ class HomeScreen extends StatelessWidget {
             CustomSnackBar(context);
           }
 
-
-
+          if (state is HomeSaveTicketSuccessState) {
+            context.read<HomeCubit>().getTickets();
+            print('ticket  saved');
+          }
         },
       ),
     );

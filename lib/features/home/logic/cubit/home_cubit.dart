@@ -15,14 +15,14 @@ class HomeCubit extends Cubit<HomeState> {
   static HomeCubit get(context) => BlocProvider.of(context);
   List<TicketModel> ticketList = [];
   int currentIndex = 0;
-  
+
   List<Widget> screens = [
     const HomeWidget(),
     const ProfileScreen(),
     const Center(child: Text('Notifications Screen')),
     const Center(child: Text('Settings Screen')),
   ];
-  
+
   int ticketsNumber = 0;
 
   void changeBottomNav(int index) {
@@ -46,8 +46,9 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeSaveTicketLoadingState());
     try {
       await homeRepo.saveTicket(title, description);
-      emit(HomeSaveTicketSuccessState());
 
+      emit(HomeSaveTicketSuccessState());
+      await getTickets();
     } catch (e) {
       emit(HomeErrorState(e.toString()));
     }

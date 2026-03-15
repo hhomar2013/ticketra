@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:it_tickets/Core/theming/colors.dart';
+import 'package:it_tickets/features/home/logic/cubit/home_cubit.dart';
 import 'package:it_tickets/features/home/ui/widgets/add_ticket_bottom_sheet.dart';
 
 class HomeFloatingActionButton extends StatelessWidget {
@@ -13,8 +15,12 @@ class HomeFloatingActionButton extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => const AddTicketBottomSheet(),
+          builder: (context) {
+            return BlocProvider.value(
+              value: context.read<HomeCubit>(),
+              child: const AddTicketBottomSheet(),
+            );
+          },
         );
       },
       backgroundColor: ColorsManager.mainFounders,
